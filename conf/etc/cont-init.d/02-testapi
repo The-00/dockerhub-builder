@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv ash
+
+API="api/v1/namespaces/default/endpoints?pretty"
+LIVEZ="livez?verbose"
+
+
+
+
+curl -sSk -H "Authorization: Bearer $KUBE_TOKEN" https://$KUBE_APISERVER/apis/networking.k8s.io/v1/namespaces/default/ingresses?pretty | grep '\s*"host": "[^"]*",' | sed 's/"host": "\([^"]*\)",/\1/' | sort

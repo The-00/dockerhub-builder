@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+
+  k3s-mainpage:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 8080:80
