@@ -1,5 +1,3 @@
-# dockerhub-builder
+# k3s main page
 
-Just building my images via docker-hub (based on branch)
-
-Each branch is a independent image
+a tool to monitor a k3s cluster and see some information about it via kubernetes api
