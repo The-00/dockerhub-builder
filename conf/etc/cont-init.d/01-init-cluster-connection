@@ -1,5 +1,0 @@
-#!/usr/bin/with-contenv ash
-
-chown nginx:nginx /var/www/api -R
-
-echo 0 > /tmp/nginx
