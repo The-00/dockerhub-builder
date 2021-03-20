@@ -1,15 +1,8 @@
-FROM ubuntu:latest
+FROM dotriver/alpine-s6
 
-RUN apt update 
-RUN apt upgrade -y
-RUN apt install -y wget tar gzip unzip file
-RUN wget https://releases.mattermost.com/focalboard/0.5.0/focalboard-server-linux-amd64.tar.gz
-RUn unzip -o focalboard-server-linux-amd64.tar.gz
-RUN tar -xvzf focalboard-server-linux-amd64.tar.gz
-RUN mv focalboard /opt
+RUN apk add nginx php7-fpm php7-curl php7-json \
+ && mkdir -p /run/nginx
 
-EXPOSE 8000
+RUN apk add python3 py3-pillow
 
-WORKDIR /opt/focalboard
-
-CMD /opt/focalboard/bin/focalboard-server
+ADD conf/ /
