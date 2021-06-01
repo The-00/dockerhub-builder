@@ -1,0 +1,58 @@
+version: '3'
+services:
+
+  postfix_dovecote:
+    build: .
+    environment:
+      - LDAP_HOST=openldap-fd
+      - LDAP_READER=cn=admin,dc=test,dc=trova,dc=fr
+      - LDAP_MAIL_GROUP=cn=mail,ou=groups,dc=test,dc=trova,dc=fr
+      - LDAP_PASSWORD=password
+      - LDAP_BASEDN=dc=test,dc=trova,dc=fr
+      - LDAP_MAIL_ATTRIBUTE=mail
+      - LDAP_ALIASES_ATTRIBUTE=gosaMailAlternateAddress
+      - LDAP_TLS=no
+      - LDAP_CERT=ldap.pem
+
+      - POSTFIX_HOSTNAME=mail.trova.fr
+      - POSTFIX_DOMAIN=trova.fr
+      - POSTFIX_BANNER=Postfix
+      - POSTFIX_ACCEPTED_NETWORKS=
+      - POSTFIX_SMTP_RELAY=mail.gandi.net:587
+      - POSTFIX_SMTP_RELAY_USER=root@trova.fr
+      - POSTFIX_SMTP_RELAY_PASS=smtp_password
+      - SSL_CRT=/certs/cert.crt
+      - SSL_KEY=/certs/cert.key
+
+    ports:
+      -  "25:25"
+      - "110:110"
+      - "143:143"
+      - "995:995"
+      - "587:587"
+    volumes:
+      - certs-data:/certs
+
+  openldap-fd:
+    image: dotriver/fusiondirectory
+    environment:
+      - ADMIN_PASS=password
+      - CONFIG_PASS=password
+      - DOMAIN=test.trova.fr
+      - FD_ADMIN=admin
+      - FD_PASS=PASSWORD
+      - INSTANCE=testMail
+      - MAIL_LOGO=https://frog.trova.fr
+      - PLUGIN_MAIL=TRUE
+    ports:
+      - 8080:80
+      - 389:389
+    volumes:
+      - openldap-data:/var/lib/openldap/
+      - openldap-config:/etc/openldap/slapd.d/
+
+
+volumes:
+    openldap-data:
+    openldap-config:
+    certs-data:

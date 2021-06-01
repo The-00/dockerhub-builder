@@ -1,0 +1,20 @@
+#!/usr/bin/with-contenv ash
+
+files="$( find /etc/dovecot -type f -exec ls {} \; )"
+
+for ev in $( env )
+do
+	variable=$( echo $ev | cut -d'=' -f1 )
+	value=$( echo $ev | cut -d'=' -f2- )
+
+	for file in $files
+	do
+#		echo sed -i "s;{$variable};$value;g" $file
+		sed -i "s;{$variable};$value;g" $file
+	done
+done
+
+mkdir -p /var/log && touch /var/log/dovecot.log
+sleep 10
+
+echo 0 > /tmp/dovecot

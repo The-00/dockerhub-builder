@@ -1,0 +1,6 @@
+#!/bin/sh
+NAME="POSTFIX"
+COMMAND="postfix start-fg"
+WAIT="/tmp/postfix"
+
+exec service-handler "$NAME" "$COMMAND" "$WAIT"

@@ -1,0 +1,3 @@
+query_filter = (&(memberof={LDAP_MAIL_GROUP})(|({LDAP_MAIL_ATTRIBUTE}=*@%s)({LDAP_ALIASES_ATTRIBUTE}=*@%s)))
+result_attribute = {LDAP_ALIASES_ATTRIBUTE}
+result_format = %d

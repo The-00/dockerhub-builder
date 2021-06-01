@@ -1,0 +1,14 @@
+server_host = ldap://{LDAP_HOST}
+version = 3
+tls_ca_cert_file = /cert/{LDAP_CERT}
+tls_require_cert = {LDAP_TLS}
+start_tls = {LDAP_TLS}
+
+bind = yes
+bind_dn = {LDAP_READER}
+bind_pw = {LDAP_PASSWORD}
+
+search_base = {LDAP_BASEDN}
+scope = sub
+
+

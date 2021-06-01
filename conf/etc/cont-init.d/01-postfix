@@ -1,0 +1,33 @@
+#!/usr/bin/with-contenv ash
+
+files="$( find /etc/postfix -type f -exec ls {} \; )"
+
+for ev in $( env )
+do
+	variable=$( echo $ev | cut -d'=' -f1 )
+	value=$( echo $ev | cut -d'=' -f2- )
+
+	for file in $files
+	do
+#		echo sed -i "s;{$variable};$value;g" $file
+		sed -i "s;{$variable};$value;g" $file
+	done
+done
+
+for ldapfiles in $( ls /etc/postfix/ldap )
+do
+	[ "$ldapfiles" = "main_ldap_conf" ] && continue
+	echo -e "$(cat /etc/postfix/ldap/main_ldap_conf)\n\n$(cat /etc/postfix/ldap/$ldapfiles)" > /etc/postfix/ldap/$ldapfiles
+done
+
+[ -f '/certs/dh4096.pem' ] || openssl dhparam 4096 > /certs/dh4096.pem
+
+postmap /etc/postfix/sasl_passwd
+chmod 0600 /etc/postfix/sasl_passwd*
+
+mkdir -p /var/spool/mail/virtual
+chown 700:700 /var/spool/mail/virtual
+
+mkdir -p /var/log && touch /var/log/postfix.log
+
+echo 0 > /tmp/postfix

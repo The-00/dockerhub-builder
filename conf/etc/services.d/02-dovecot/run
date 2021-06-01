@@ -1,0 +1,6 @@
+#!/bin/sh
+NAME="DOVECOT"
+COMMAND="dovecot -F"
+WAIT="/tmp/dovecot"
+
+exec service-handler "$NAME" "$COMMAND" "$WAIT"

@@ -1,0 +1,2 @@
+query_filter = (&(memberof={LDAP_MAIL_GROUP})({LDAP_MAIL_ATTRIBUTE}=%s))
+result_attribute = uidNumber

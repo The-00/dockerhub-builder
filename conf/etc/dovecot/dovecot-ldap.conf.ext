@@ -1,0 +1,28 @@
+ldap_version = 3
+uris = ldap://{LDAP_HOST}
+dn = {LDAP_READER}
+dnpass = {LDAP_PASSWORD}
+base = {LDAP_BASEDN}
+
+auth_bind = yes
+blocking = yes
+
+scope = subtree
+iterate_attrs = {LDAP_MAIL_ATTRIBUTE}=user
+iterate_filter = (objectClass=posixAccount)
+
+
+user_attrs = \
+           =home=%{ldap:homeDirectory}, \
+           =uid=%{ldap:uidNumber}, \
+           =gid=%{ldap:gidNumber}
+user_filter = (&(objectClass=posixAccount)(&(memberof={LDAP_MAIL_GROUP})({LDAP_MAIL_ATTRIBUTE}=%u)))
+
+pass_attrs = \
+           =user=%{ldap:{LDAP_MAIL_ATTRIBUTE}}, \
+           =password=%{ldap:userPassword}
+pass_filter = (&(objectClass=posixAccount)(&(memberof={LDAP_MAIL_GROUP})({LDAP_MAIL_ATTRIBUTE}=%u)))
+
+tls = no
+
+debug_level = -1
